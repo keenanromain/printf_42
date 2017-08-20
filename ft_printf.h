@@ -64,5 +64,6 @@ void				ft_putwchar(wchar_t c);
 int					ft_wcharlen(wchar_t wc);
 size_t				ft_wstrlen(wchar_t *ws);
 wchar_t				*ft_wstrdup(wchar_t *ws);
+void				wchar_to_c(wchar_t wchar, char *s);
 
 #endif

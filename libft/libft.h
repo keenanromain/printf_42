@@ -109,5 +109,6 @@ char				*ft_downcase(char *s);
 char				*ft_upcase(char *s);
 void				ft_putnstr(char *s, size_t n);
 int					ft_strnchr(char *s, char c);
+char	*ft_itoa_unsigned(unsigned long long n, unsigned int b);
 
 #endif

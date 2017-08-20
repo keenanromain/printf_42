@@ -1,5 +1,29 @@
 #include "ft_printf.h"
 
+void			wchar_to_c(wchar_t wchar, char *s)
+{
+	if (wchar <= 0x7F)
+		s[0] = wchar;
+	else if (wchar <= 0x7FF)
+	{
+		s[0] = 192 | (((unsigned int)(wchar) >> 6) & 63);
+		s[1] = 128 | ((unsigned int)(wchar) & 63);
+	}
+	else if (wchar <= 0xFFFF)
+	{
+		s[0] = 224 | (((unsigned int)(wchar) >> 12) & 63);
+		s[1] = 128 | (((unsigned int)(wchar) >> 6) & 63);
+		s[2] = 128 | ((unsigned int)(wchar) & 63);
+	}
+	else if (wchar <= 0x10FFFF)
+	{
+		s[0] = 240 | (((unsigned int)(wchar) >> 18) & 63);
+		s[1] = 128 | (((unsigned int)(wchar) >> 12) & 63);
+		s[2] = 128 | (((unsigned int)(wchar) >> 6) & 63);
+		s[3] = 128 | ((unsigned int)(wchar) & 63);
+	}
+}
+
 int		print_wchr(va_list *args, t_flag *f, int len)
 {
 	char *s;
@@ -10,7 +34,7 @@ int		print_wchr(va_list *args, t_flag *f, int len)
 	len = ft_strlen(s);
 	if (wc == 0)
 		ft_putchar('\0');
-	wchar_to_s(wc, s);
+	wchar_to_c(wc, s);
 	handle_s_width(&s, f);
 	ft_putstr(s);
 	return (len);

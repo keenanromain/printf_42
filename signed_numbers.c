@@ -27,7 +27,7 @@ int			print_int(va_list *args, t_flag *f, intmax_t type)
 	char *s;
 
 	if (f->precision == 0 && !type)
-		return (handle_int_width(0, f));
+		return (handle_i_width(0, f));
 	s = ft_itoa(type);
 	f->len = ft_strlen(s);
 	if (f->zero && !f->new_p && !f->minus && f->len < (unsigned int)f->width)
@@ -35,7 +35,7 @@ int			print_int(va_list *args, t_flag *f, intmax_t type)
 		f->new_p = 1;
 		f->precision = (f->plus || type < 0 || f->space) ? f->width -1 : f->width;
 	}
-	handle_int_prec(&s, f);
+	handle_i_prec(&s, f);
 	if (f->space && s[0] != '-' && !f->plus)
 		s = ft_strjoin(" ", s);
 	if (f->plus && type > -1)

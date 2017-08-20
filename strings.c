@@ -1,5 +1,23 @@
 #include "ft_printf.h"
 
+static char		*wchars_to_s(wchar_t *ws)
+{
+	size_t	len;
+	char	*res;
+	int		i;
+
+	len = ft_wstrlen(ws);
+	res = ft_strnew(len);
+	i = 0;
+	while (*ws)
+	{
+		wchar_to_c(*ws, res + i);
+		i += ft_wcharlen(*ws);
+		ws++;
+	}
+	return (res);
+}
+
 int		print_str(va_list *args, t_flag *f, int len)
 {
 	char *s;
