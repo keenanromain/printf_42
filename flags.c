@@ -62,7 +62,7 @@ static void		set_asterik(char *s, t_flag *f, va_list *args, int i)
 			num = va_arg(*args, int);
 	}
 }
-// weird double incrementation at the end
+
 static void		set_enum(char *s, t_flag *f, int i)
 {
 	while (s[++i])
