@@ -33,7 +33,8 @@ int			print_int(t_flag *f, intmax_t type)
 	if (f->zero && !f->new_p && !f->minus && f->len < (unsigned int)f->width)
 	{
 		f->new_p = 1;
-		f->precision = (f->plus || type < 0 || f->space) ? f->width -1 : f->width;
+		f->precision = (f->plus || type < 0 || f->space) \
+					? f->width - 1 : f->width;
 	}
 	handle_i_prec(&s, f);
 	if (f->space && s[0] != '-' && !f->plus)

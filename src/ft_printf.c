@@ -54,6 +54,7 @@ int		run_thru_string(char *format, va_list *args, t_flag *f)
 			continue ;
 		}
 		size++;
+		f->amount++;
 		s++;
 	}
 	ft_putnstr(last_spot, s - last_spot);

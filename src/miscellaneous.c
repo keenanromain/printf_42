@@ -1,17 +1,17 @@
 #include "../inc/ft_printf.h"
 
-int		print_percent(t_flag *f)
+int		print_percent(t_flag *f, int len)
 {
 	char *s;
 
 	s = ft_strdup("%");
 	handle_s_width(&s, f);
-	ft_putchar('%');
+	ft_putstr(s);
+	len = ft_strlen(s);
 	ft_strdel(&s);
-	return (1);
+	return (len);
 }
 
-//see about else statement below....
 int		print_invalid(t_flag *f)
 {
 	char *s;
@@ -25,7 +25,7 @@ int		print_invalid(t_flag *f)
 	else
 	{
 		handle_s_width(&s, f);
-		s[0] = f->spec;
+		s[ft_strlen(s) - 1] = f->spec;
 	}
 	ft_putstr(s);
 	ft_strdel(&s);

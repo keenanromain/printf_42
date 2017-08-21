@@ -1,17 +1,16 @@
 #include "../inc/ft_printf.h"
 
-/* problems here: what if a user sends multiple flags of the same type? What is printf's normal usage for this particular issue.*/
-
-int				conversions(t_flag *f, va_list *args, int len)
+int				conversions(t_flag *f, va_list *args, int *len)
 {
+	if (f->spec == 'n' && (len = va_arg(*args, int*)))
+		return ((*len = f->amount));
 	if (f->spec == '%')
-		return (print_percent(f));
+		return (print_percent(f, *len));
 	else if (ft_strnchr("idDxXouUO)", f->spec) >= 0)
-		return (dispatch_numbers(args, f, len));
+		return (dispatch_numbers(args, f));
 	else if (ft_strnchr("SspcC", f->spec) >= 0)
-		return (dispatch_non_numbers(args, f, len));
-	else
-		return (print_invalid(f));
+		return (dispatch_non_numbers(args, f));
+	return (print_invalid(f));
 }
 
 static void		set_width(char *s, t_flag *f, int i)
@@ -36,7 +35,7 @@ static void		set_width(char *s, t_flag *f, int i)
 		}
 	}
 }
-// see about just having the if statement alone in the while loop below
+
 static void		set_asterik(char *s, t_flag *f, va_list *args, int i)
 {
 	int num;
@@ -62,27 +61,25 @@ static void		set_asterik(char *s, t_flag *f, va_list *args, int i)
 			num = va_arg(*args, int);
 	}
 }
-// weird double incrementation at the end
-static void		set_enum(char *s, t_flag *f, int i)
+
+static void		set_modifier(char *tmp, t_flag *f)
 {
-	while (s[++i])
-	{
-		if (s[i] == 'h')
-			f->mod = (s[++i] == 'h') ? hh : h;
-		else if (s[l] == 'l')
-			f->mod = (s[++i] == 'l') ? ll : l;
-		else if (s[i] == 't')
-			f->mod = t;
-		else if (s[i] == 'z')
-			f->mod = z;
-		else if (s[i] == 'j')
-			f->mod = j;
-		i += 1;
-	}
+	if (tmp[0] == 'h')
+		f->mod = (tmp[1] == 'h') ? hh : h;
+	else if (tmp[0] == 'l')
+		f->mod = (tmp[1] == 'l') ? ll : l;
+	else if (tmp[0] == 't')
+		f->mod = t;
+	else if (tmp[0] == 'z')
+		f->mod = z;
+	else if (tmp[0] == 'j')
+		f->mod = j;
 }
 
 int				flags(t_flag *f, char *s, va_list *args, int i)
 {
+	char *tmp;
+
 	f->spec = s[ft_strlen(s) - 1];
 	while (s[++i])
 	{
@@ -95,6 +92,12 @@ int				flags(t_flag *f, char *s, va_list *args, int i)
 	}
 	set_width(s, f, -1);
 	set_asterik(s, f, args, -1);
-	set_enum(s, f, -1);
+	tmp = ft_strdup(s);
+	while (*tmp)
+	{
+		set_modifier(tmp, f);
+		tmp++;
+	}
+	ft_strdel(&tmp);
 	return (conversions(f, args, 0));
 }

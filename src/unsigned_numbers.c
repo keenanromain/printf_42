@@ -26,8 +26,11 @@ static int				valid(t_flag *f, char *s)
 {
 	f->len = ft_strlen(s);
 	handle_i_prec(&s, f);
-	if (f->zero && f->hash && (f->width -= 2))
+	if (f->zero && f->hash)
+	{
+		f->width -= 2;
 		handle_s_width(&s, f);
+	}
 	if (f->hash && ft_strcmp("0", s))
 		s = ft_strjoin("0X", s);
 	handle_s_width(&s, f);

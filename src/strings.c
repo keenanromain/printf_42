@@ -1,6 +1,6 @@
 #include "../inc/ft_printf.h"
 
-static char		*wchars_to_s(wchar_t *ws)
+static char		*wstr_to_s(wchar_t *ws)
 {
 	size_t	len;
 	char	*res;
@@ -11,7 +11,7 @@ static char		*wchars_to_s(wchar_t *ws)
 	i = 0;
 	while (*ws)
 	{
-		wchar_to_c(*ws, res + i);
+		wchr_to_c(*ws, res + i);
 		i += ft_wcharlen(*ws);
 		ws++;
 	}
@@ -29,15 +29,15 @@ static int		invalid(t_flag *f, int len, char *s)
 	return (len);
 }
 
-int		print_wstr(va_list *args, t_flag *f, int len)
+int				print_wstr(va_list *args, t_flag *f, int len)
 {
 	char	*s;
 	wchar_t	*ws;
 
 	if (!(ws = ft_wstrdup(va_arg(*args, wchar_t*))))
-		return (invalid(f, len, (s = ft_strdup(""))));
+		return (invalid(f, len, ft_strdup("")));
 	handle_ws_prec(&ws, f);
-	s = wchars_to_s(ws);
+	s = wstr_to_s(ws);
 	handle_s_width(&s, f);
 	if (f->width)
 		len = (unsigned int)f->width > ft_wstrlen(ws) ? \
@@ -49,7 +49,7 @@ int		print_wstr(va_list *args, t_flag *f, int len)
 	return (len);
 }
 
-int		print_str(va_list *args, t_flag *f, int len)
+int				print_str(va_list *args, t_flag *f, int len)
 {
 	char *s;
 

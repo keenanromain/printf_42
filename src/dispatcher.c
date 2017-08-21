@@ -1,57 +1,43 @@
 #include "../inc/ft_printf.h"
 
-int		dispatch_non_numbers(va_list *args, t_flag *f, int len)
+int		dispatch_non_numbers(va_list *args, t_flag *f)
 {
-	if (f->spec == 's' || f->spec == 'S')
-	{
-		if (f->mod == l || f->spec == 'S')
-			len += print_wstr(args, f, len);
-		else
-			len += print_str(args, f, len);
-	}
+	if (f->mod == l || f->spec == 'S')
+		return (print_wstr(args, f, 0));
+	else if (f->mod == l || f->spec == 'C')
+		return (print_wchr(args, f, 0));
 	else if (f->spec == 'p')
-		len += print_ptr(args, f, len);
-	else
-	{
-		if (f->mod == l || f->spec == 'C')
-			len += print_wchr(args, f, len);
-		else
-			len += print_chr(args, f, len);
-	}
-	return (len);
+		return (print_ptr(args, f, 0));
+	else if (f->spec == 's')
+		return (print_str(args, f, 0));
+	return (print_chr(args, f, 0));
 }
 
-static int  dispatch_unsigned_numbers(va_list *args, t_flag *f, int len)
+static int  dispatch_unsigned_numbers(va_list *args, t_flag *f)
 {
 	if (f->spec == 'o' || f->spec == 'O')
 	{
-		if (f->spec == 'O')
-			f->mod = l;
+		f->mod = (f->spec == 'O') ? l : f->mod;
 		f->spec = 'o';
-		len += print_octal(f, get_unsigned(args, f));
+		return (print_octal(f, get_unsigned(args, f)));
 	}
 	else if (f->spec == 'u' || f->spec == 'U')
 	{
-		if (f->spec == 'U')
-			f->mod = l;
+		f->mod = (f->spec == 'U') ? l : f->mod;
 		f->spec = 'u';
-		len += print_uint(f, get_unsigned(args, f));
+		return (print_uint(f, get_unsigned(args, f)));
 	}
-	else
-		len += print_hex(f, get_unsigned(args, f));
-	return (len);
+	return (print_hex(f, get_unsigned(args, f)));
 }
 
-int		dispatch_numbers(va_list *args, t_flag *f, int len)
+int		dispatch_numbers(va_list *args, t_flag *f)
 {
 	if (f->spec == 'd' || f->spec == 'D' || f->spec == 'i')
 	{
 		if (f->spec == 'D')
 			f->mod = l;
 		f->spec = 'd';
-		len += print_int(f, get_signed(args, f));
+		return (print_int(f, get_signed(args, f)));
 	}
-	else
-		len += dispatch_unsigned_numbers(args, f, len);
-	return (len);
+	return (dispatch_unsigned_numbers(args, f));
 }

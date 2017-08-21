@@ -18,7 +18,7 @@ int			handle_i_width(unsigned int num, t_flag *f)
 
 static char	*justification(char **s, t_flag *f, char *tmp)
 {
-	if (f->zero == false)
+	if (!f->zero)
 		ft_memset(tmp, ' ', f->width - ft_strlen(*s));
 	else
 	{
@@ -30,20 +30,20 @@ static char	*justification(char **s, t_flag *f, char *tmp)
 			tmp = ft_strjoin(tmp, *s);
 		}
 		else
-		ft_memset(tmp, '0', f->width - ft_strlen(*s));
+			ft_memset(tmp, '0', f->width - ft_strlen(*s));
 	}
 	ft_strcpy(tmp + f->width - ft_strlen(*s), *s);
 	return (tmp);
 }
 
-void	handle_s_width(char **s, t_flag *f)
+void		handle_s_width(char **s, t_flag *f)
 {
 	char *tmp;
 
 	if (f->new_w == 0 || (unsigned int)f->width <= ft_strlen(*s))
 		return ;
 	tmp = ft_strnew(f->width);
-	if (f->minus == false)
+	if (!f->minus)
 	{
 		tmp = justification(s, f, tmp);
 		*s = tmp;

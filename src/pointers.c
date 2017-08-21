@@ -3,8 +3,11 @@
 static int invalid(t_flag *f, char **p)
 {
 	handle_i_prec(p, f);
-	if (f->zero && (f->width -= 2))
+	if (f->zero)
+	{
+		f->width -= 2;
 		handle_s_width(p, f);
+	}
 	if (f->precision == 0 && f->new_p)
 		*p = ft_strdup("");
 	*p = ft_strjoin("0x", *p);
