@@ -39,7 +39,7 @@ $(NAME): lib
 	@echo "|_|  \__|   | .__/|_|  |_|_| |_|\__|_|  "
 	@echo "      ______| |                         "
 	@echo "     |______|_|            \033[0m "
-	@cd src && clang -Wall -Wextra -Werror -c $(SRCS)
+	@cd src && gcc -Wall -Wextra -Werror -c $(SRCS)
 	@echo "\033[01;39mFinished making ft_printf. Available Makefile commands:\033[0m"
 	@echo "\033[01;39m - make\033[0m"
 	@echo "\033[01;39m - make clean\033[0m"
