@@ -50,7 +50,7 @@ int		print_chr(va_list *args, t_flag *f, int len)
 	d = (f->zero && !f->minus ? '0' : ' ');
 	if (f->minus)
 		len += write(1, &c, 1);
-	i = (f->width ? -1 : 0);
+	i = (f->width) ? -1 : 0;
 	if (f->width)
 		while (++i < f->width -1)
 			len += write(1, &d, 1);

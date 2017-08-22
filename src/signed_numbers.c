@@ -18,8 +18,7 @@ intmax_t	get_signed(va_list *args, t_flag *f)
 		return (intmax_t)va_arg(*args, ssize_t);
 	else if (f->mod == t)
 		return (intmax_t)va_arg(*args, ptrdiff_t);
-	else
-		return (0);
+	return (0);
 }
 
 int			print_int(t_flag *f, intmax_t type)

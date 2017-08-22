@@ -40,7 +40,7 @@ void		handle_s_width(char **s, t_flag *f)
 {
 	char *tmp;
 
-	if (f->new_w == 0 || (unsigned int)f->width <= ft_strlen(*s))
+	if (!f->new_w || (unsigned int)f->width <= ft_strlen(*s))
 		return ;
 	tmp = ft_strnew(f->width);
 	if (!f->minus)
@@ -50,7 +50,6 @@ void		handle_s_width(char **s, t_flag *f)
 		return ;
 	}
 	ft_strcpy(tmp, *s);
-	ft_memset(tmp + ft_strlen(*s), ' ', \
-			f->width - ft_strlen(*s));
+	ft_memset(tmp + ft_strlen(*s), ' ', f->width - ft_strlen(*s));
 	*s = tmp;
 }

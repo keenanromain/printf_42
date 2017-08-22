@@ -18,8 +18,7 @@ unsigned long long		get_unsigned(va_list *args, t_flag *f)
 		return (unsigned long long)va_arg(*args, size_t);
 	else if (f->mod == t)
 		return (unsigned long long)va_arg(*args, unsigned long long);
-	else
-		return (0);
+	return (0);
 }
 
 static int				valid(t_flag *f, char *s)

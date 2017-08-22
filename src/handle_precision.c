@@ -2,7 +2,7 @@
 
 void	handle_s_prec(char **s, t_flag *f)
 {
-	if (f->new_p == 0 || f->len <= f->precision)
+	if (!f->new_p || f->len <= f->precision)
 		return ;
 	*s = ft_strndup(*s, f->precision);
 }
@@ -11,7 +11,7 @@ void	handle_i_prec(char **s, t_flag *f)
 {
 	char *tmp;
 
-	if (f->new_p == 0 || f->len > f->precision)
+	if (!f->new_p || f->len > f->precision)
 		return ;
 	tmp = ft_strnew(f->precision);
 	f->zero = 0;
@@ -38,7 +38,7 @@ void	handle_ws_prec(wchar_t **ws, t_flag *f)
 
 	i = -1;
 	len = 0;
-	if (f->new_p == 0 || ft_wstrlen(*ws) <= f->precision)
+	if (!f->new_p || ft_wstrlen(*ws) <= f->precision)
 		return ;
 	while ((*ws)[++i] && len <= f->precision)
 		len += ft_wcharlen((*ws)[i]);

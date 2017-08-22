@@ -33,8 +33,8 @@ typedef struct		s_flag
 	unsigned int	precision;
 	int				width;
 	char			spec;
-	int				new_w;
-	int				new_p;
+	bool			new_w;
+	bool			new_p;
 	t_mod			mod;
 }					t_flag;
 
@@ -44,7 +44,7 @@ int					run_thru_string(char *format, va_list *args, t_flag *f);
 int					next_char(va_list *args, char *s, t_flag *f, int size);
 int					parse_valid(va_list *args, t_flag *f, char *s, char *check, char *comp);
 int					flags(t_flag *f, char *s, va_list *args, int i);
-int					conversions(t_flag *f, va_list *args, int *len);
+int					conversions(t_flag *f, va_list *args);
 int					dispatch_numbers(va_list *args, t_flag *f);
 int					dispatch_non_numbers(va_list *args, t_flag *f);
 int					print_percent(t_flag *f, int len);

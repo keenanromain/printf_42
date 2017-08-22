@@ -1,11 +1,9 @@
 #include "../inc/ft_printf.h"
 
-int				conversions(t_flag *f, va_list *args, int *len)
+int				conversions(t_flag *f, va_list *args)
 {
-	if (f->spec == 'n' && (len = va_arg(*args, int*)))
-		return ((*len = f->amount));
 	if (f->spec == '%')
-		return (print_percent(f, *len));
+		return (print_percent(f, 0));
 	else if (ft_strnchr("idDxXouUO)", f->spec) >= 0)
 		return (dispatch_numbers(args, f));
 	else if (ft_strnchr("SspcC", f->spec) >= 0)
@@ -21,14 +19,14 @@ static void		set_width(char *s, t_flag *f, int i)
 	{
 		if (s[i] != '0' && s[i] != '.' && ft_isdigit(s[i]))
 		{
-			f->new_w = 1;
+			f->new_w = true;
 			f->width = ft_atoi(s + i);
 			while (s[i] && ft_isdigit(s[i]))
 				++i;
 		}
 		if (s[i] == '.' && s[i + 1] != '*')
 		{
-			f->new_p = 1;
+			f->new_p = true;
 			f->precision = ft_atoi(s + i + 1);
 			while (s[i] && ft_isdigit(s[i + 1]))
 				++i;
@@ -47,13 +45,13 @@ static void		set_asterik(char *s, t_flag *f, va_list *args, int i)
 			num = va_arg(*args, int);
 			if (s[i - 1] == '.')
 			{
-				f->new_p = (num >= 0) ? 1 : 0;
+				f->new_p = (num >= 0) ? true : false;
 				f->precision = (num >= 0) ? num : 0;
 			}
 			else
 			{
 				f->minus = (num < 0) ? true : false;
-				f->new_w = 1;
+				f->new_w = true;
 				f->width = ft_abs(num);
 			}
 		}
@@ -99,5 +97,5 @@ int				flags(t_flag *f, char *s, va_list *args, int i)
 		tmp++;
 	}
 	ft_strdel(&tmp);
-	return (conversions(f, args, 0));
+	return (conversions(f, args));
 }
