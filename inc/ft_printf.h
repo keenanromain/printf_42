@@ -1,6 +1,9 @@
 #ifndef FT_PRINTF
 # define FT_PRINTF
 
+# define SET "sSpdDioOuUxXcC%"
+# define UNSET "sSpdDioOuUxXcC%hljz"
+
 # include <unistd.h>
 # include <stdlib.h>
 # include <stdarg.h>
@@ -11,6 +14,7 @@
 
 typedef enum		s_mod
 {
+	no,
 	h,
 	hh,
 	l,
@@ -18,7 +22,6 @@ typedef enum		s_mod
 	j,
 	z,
 	t,
-	no
 }					t_mod;
 
 typedef struct		s_flag
@@ -28,7 +31,6 @@ typedef struct		s_flag
 	bool			minus;
 	bool			space;
 	bool			plus;
-	int				amount;
 	unsigned int	len;
 	unsigned int	precision;
 	int				width;
@@ -40,9 +42,8 @@ typedef struct		s_flag
 
 
 int					ft_printf(const char *format, ...);
-int					run_thru_string(char *format, va_list *args, t_flag *f);
+int					run_thru_string(char *format, va_list *args, t_flag *f, int *size);
 int					next_char(va_list *args, char *s, t_flag *f, int size);
-int					parse_valid(va_list *args, t_flag *f, char *s, char *check, char *comp);
 int					flags(t_flag *f, char *s, va_list *args, int i);
 int					conversions(t_flag *f, va_list *args);
 int					dispatch_numbers(va_list *args, t_flag *f);
