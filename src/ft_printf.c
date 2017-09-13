@@ -1,66 +1,74 @@
-#include "../inc/ft_printf.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_printf.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kromain <kromain@student.42.us.org>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/08/12 15:25:23 by kromain           #+#    #+#             */
+/*   Updated: 2017/09/08 17:10:18 by kromain          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
+#include "ft_printf.h"
 
-static int		parse_format(va_list *args, t_flag *f, char *s, int *size)
+static int		determine_fmt(char *fmt, va_list *av, int *size)
 {
-	char	*tmp;
-	int		i;
-	char	*p;
+	char		*s;
+	char		*tmp;
+	int			i;
 
-	tmp = s;
+	s = NULL;
+	tmp = fmt;
 	i = -1;
-	p = NULL;
 	while (tmp[++i])
 	{
-		if (ft_strchr(SET, tmp[i]) || ft_isalpha(tmp[i]) || \
-				!ft_strchr(UNSET, tmp[i]))
+		if (ft_strchr(SPEC, tmp[i]) || (ft_isalpha(tmp[i]) \
+		&& !ft_strchr(POSS, tmp[i])))
 		{
-			p = ft_strndup(s, ++i);
+			s = ft_strndup(fmt, ++i);
 			break ;
 		}
 	}
-	if (!p)
-		return (0);
-	*size += flags(f, s, args, -1);
-	return (i);
+	if (s)
+		*size += determine_flags(s, av);
+	return (!s ? 0 : i);
 }
-int			run_thru_string(char *s, va_list *args, t_flag *f, int *size)
-{
-	int *ptr;
 
-	ptr = 0;
-	while (*s)
+static int		run_thru_string(char *fmt, va_list *av, int *size)
+{
+	int			*p;
+
+	p = 0;
+	while (*fmt)
 	{
-		if (*s == '%' && s++)
+		if (*fmt && *fmt != '%')
+			*size += write(1, fmt++, 1);
+		else
 		{
-			if (*s == 'n')
+			if (fmt++ && *fmt == 'n')
 			{
-				ptr = va_arg(*args, int*);
-				*ptr = *size;
-				s++;
+				p = va_arg(*av, int*);
+				*p = *size;
+				fmt++;
 			}
 			else
-				s += parse_format(args, f, s, size);
+				fmt += determine_fmt(fmt, av, size);
 		}
-		else
-			*size += write(1, s++, 1);
 	}
 	return (*size);
 }
 
-int			ft_printf(const char *format, ...)
+int				ft_printf(const char *format, ...)
 {
+	va_list		av;
 	int			size;
-	va_list		args;
-	t_flag		*f;
 
 	size = 0;
 	if (!format)
 		return (size);
-	f = (t_flag *)malloc(sizeof(t_flag));
-	ft_memset(f, 0, sizeof(t_flag));
-	va_start(args, format);
-	size = run_thru_string((char *)format, &args, f , &size);
-	va_end(args);
+	va_start(av, format);
+	size = run_thru_string((char *)format, &av, &size);
+	va_end(av);
 	return (size);
 }

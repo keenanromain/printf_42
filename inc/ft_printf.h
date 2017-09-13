@@ -1,18 +1,31 @@
-#ifndef FT_PRINTF
-# define FT_PRINTF
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_printf.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kromain <kromain@student.42.us.org>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/14/08 26:45:21 by kromain           #+#    #+#             */
+/*   Updated: 2017/19/08 11:21:28 by kromain          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-# define SET "sSpdDioOuUxXcC%"
-# define UNSET "sSpdDioOuUxXcC%hljz"
+#ifndef FT_PRINTF_H
+# define FT_PRINTF_H
 
-# include <unistd.h>
-# include <stdlib.h>
+# define SPEC "sSpdDioOuUxXcC%"
+# define POSS "sSpdDioOuUxXcC%hljz"
+# define ONE_BYTE 127
+# define TWO_BYTE 2047
+# define THREE_BYTE 65535
+
 # include <stdarg.h>
-# include <wchar.h>
+# include <stdio.h>
+# include "libft.h"
 # include <stdbool.h>
-# include <stddef.h>
-# include "../libft/libft.h"
+# include <wchar.h>
 
-typedef enum		s_mod
+typedef enum		e_mod
 {
 	no,
 	h,
@@ -21,55 +34,53 @@ typedef enum		s_mod
 	ll,
 	j,
 	z,
-	t,
+	t
 }					t_mod;
 
-typedef struct		s_flag
+typedef struct		s_flags
 {
-	bool			hash;
+	bool			pound;
 	bool			zero;
 	bool			minus;
 	bool			space;
 	bool			plus;
-	unsigned int	len;
-	unsigned int	precision;
+	bool			set_width;
+	bool			set_prec;
 	int				width;
-	char			spec;
-	bool			new_w;
-	bool			new_p;
+	unsigned int	prec;
+	unsigned int	len;
 	t_mod			mod;
-}					t_flag;
-
+	char			spec;
+}					t_flags;
 
 int					ft_printf(const char *format, ...);
-int					run_thru_string(char *format, va_list *args, t_flag *f, int *size);
-int					next_char(va_list *args, char *s, t_flag *f, int size);
-int					flags(t_flag *f, char *s, va_list *args, int i);
-int					conversions(t_flag *f, va_list *args);
-int					dispatch_numbers(va_list *args, t_flag *f);
-int					dispatch_non_numbers(va_list *args, t_flag *f);
-int					print_percent(t_flag *f, int len);
-int					print_invalid(t_flag *f);
-int					print_chr(va_list *args, t_flag *f, int len);
-int					print_wchr(va_list *args, t_flag *f, int len);
-int					print_str(va_list *args, t_flag *f, int len);
-int					print_wstr(va_list *args, t_flag *f, int len);
-int					print_ptr(va_list *args, t_flag *f, int len);
-int					print_int(t_flag *f, intmax_t type);
-int					print_octal(t_flag *f, unsigned long long type);
-int					print_uint(t_flag *f, unsigned long long type);
-int					print_hex(t_flag *f, unsigned long long type);
-unsigned long long	get_unsigned(va_list *args, t_flag *f);
-intmax_t			get_signed(va_list *args, t_flag *f);
-void				ft_putwchar(wchar_t c);
-int					ft_wcharlen(wchar_t wc);
-size_t				ft_wstrlen(wchar_t *ws);
+int					determine_flags(char *fmt, va_list *av);
+int					dispatcher(t_flags *f, va_list *av);
+int					dispatch_non_number(t_flags *f, va_list *av);
+int					dispatch_number(t_flags *f, va_list *av);
+int					print_c(t_flags *f, va_list *av, int len);
+int					print_s(t_flags *f, va_list *av, int len);
+int					print_wc(t_flags *f, va_list *av, int len);
+int					print_ws(t_flags *f, va_list *av, int len);
+int					print_signed(t_flags *f, intmax_t type);
+int					print_octal(t_flags *f, unsigned long long type);
+int					print_unsigned(t_flags *f, unsigned long long type);
+int					print_hex(t_flags *f, unsigned long long type);
+int					print_pointer(t_flags *f, va_list *av);
+int					print_percent(t_flags *f, va_list *av);
+int					print_invalid(t_flags *f);
+intmax_t			signed_type(t_flags *f, va_list *av);
+unsigned long long	unsigned_type(t_flags *f, va_list *av);
+int					i_width(unsigned int i, t_flags *f);
+void				s_width(char **s, t_flags *f);
+int					ws_width(wchar_t **ws, t_flags *f);
+void				i_precision(char **s, t_flags *f);
+void				s_precision(char **s, t_flags *f);
+void				ws_precision(wchar_t **ws, t_flags *f);
+int					ft_wcharlen(wchar_t c);
+size_t				ft_wstrlen(wchar_t *s);
 wchar_t				*ft_wstrdup(wchar_t *ws);
-void				wchr_to_c(wchar_t wc, char *s);
-void				handle_s_prec(char **s, t_flag *f);
-void				handle_i_prec(char **s, t_flag *f);
-void				handle_ws_prec(wchar_t **ws, t_flag *f);
-void				handle_s_width(char **s, t_flag *f);
-int					handle_i_width(unsigned int num, t_flag *f);
+void				wc_to_s(wchar_t wc, char *s);
+char				*ws_to_s(wchar_t *ws, size_t len, int i);
 
 #endif

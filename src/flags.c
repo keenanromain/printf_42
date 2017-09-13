@@ -1,40 +1,41 @@
-#include "../inc/ft_printf.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   flags.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kromain <kromain@student.42.us.org>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/08/11 17:28:25 by kromain           #+#    #+#             */
+/*   Updated: 2017/08/21 17:28:26 by kromain          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-int				conversions(t_flag *f, va_list *args)
-{
-	if (f->spec == '%')
-		return (print_percent(f, 0));
-	else if (ft_strnchr("idDxXouUO)", f->spec) >= 0)
-		return (dispatch_numbers(args, f));
-	else if (ft_strnchr("SspcC", f->spec) >= 0)
-		return (dispatch_non_numbers(args, f));
-	return (print_invalid(f));
-}
+#include "ft_printf.h"
 
-static void		set_width(char *s, t_flag *f, int i)
+static void		determine_width(char *s, t_flags *f, int i)
 {
 	f->width = 1;
-	f->precision = 1;
+	f->prec = 1;
 	while (s[++i])
 	{
-		if (s[i] != '0' && s[i] != '.' && ft_isdigit(s[i]))
+		if (s[i] != '.' && s[i] != '0' && ft_isdigit(s[i]))
 		{
-			f->new_w = true;
+			f->set_width = true;
 			f->width = ft_atoi(s + i);
 			while (s[i] && ft_isdigit(s[i]))
 				++i;
 		}
 		if (s[i] == '.' && s[i + 1] != '*')
 		{
-			f->new_p = true;
-			f->precision = ft_atoi(s + i + 1);
+			f->set_prec = true;
+			f->prec = ft_atoi(s + i + 1);
 			while (s[i] && ft_isdigit(s[i + 1]))
 				++i;
 		}
 	}
 }
 
-static void		set_asterik(char *s, t_flag *f, va_list *args, int i)
+static void		determine_asterik(char *s, t_flags *f, va_list *av, int i)
 {
 	int num;
 
@@ -42,60 +43,62 @@ static void		set_asterik(char *s, t_flag *f, va_list *args, int i)
 	{
 		if (s[i] == '*' && !ft_isdigit(s[i + 1]))
 		{
-			num = va_arg(*args, int);
+			num = va_arg(*av, int);
 			if (s[i - 1] == '.')
 			{
-				f->new_p = (num >= 0) ? true : false;
-				f->precision = (num >= 0) ? num : 0;
+				f->set_prec = (num >= 0) ? true : false;
+				f->prec = (num >= 0) ? num : 0;
 			}
 			else
 			{
 				f->minus = (num < 0) ? true : false;
-				f->new_w = true;
+				f->set_width = true;
 				f->width = ft_abs(num);
 			}
 		}
 		else if (s[i] == '*')
-			num = va_arg(*args, int);
+			num = va_arg(*av, int);
 	}
 }
 
-static void		set_modifier(char *tmp, t_flag *f)
+static void		determine_mod(char *s, t_flags *f, int i)
 {
-	if (tmp[0] == 'h')
-		f->mod = (tmp[1] == 'h') ? hh : h;
-	else if (tmp[0] == 'l')
-		f->mod = (tmp[1] == 'l') ? ll : l;
-	else if (tmp[0] == 't')
-		f->mod = t;
-	else if (tmp[0] == 'z')
-		f->mod = z;
-	else if (tmp[0] == 'j')
-		f->mod = j;
+	while (s[++i])
+	{
+		if (s[i] == 'h')
+			f->mod = (s[++i] == 'h') ? hh : h;
+		else if (s[i] == 'l')
+			f->mod = (s[++i] == 'l') ? ll : l;
+		else if (s[i] == 'j')
+			f->mod = j;
+		else if (s[i] == 'z')
+			f->mod = z;
+		else if (s[i] == 't')
+			f->mod = t;
+	}
 }
 
-int				flags(t_flag *f, char *s, va_list *args, int i)
+int				determine_flags(char *s, va_list *av)
 {
-	char *tmp;
+	int			i;
+	t_flags		*f;
 
+	i = -1;
+	f = (t_flags *)ft_memalloc(sizeof(t_flags));
 	f->spec = s[ft_strlen(s) - 1];
 	while (s[++i])
 	{
-		f->hash = (s[i] == '#') ? true : f->hash;
+		if (s[i] == '0' && s[i - 1] != '.' && !ft_isdigit(s[i - 1]))
+			f->zero = true;
+		f->pound = (s[i] == '#') ? true : f->pound;
 		f->plus = (s[i] == '+') ? true : f->plus;
 		f->minus = (s[i] == '-') ? true : f->minus;
 		f->space = (s[i] == ' ') ? true : f->space;
-		if (s[i] == '0' && !ft_isdigit(s[i - 1]) && s[i - 1] != '.')
-			f->zero = true;
 	}
-	set_width(s, f, -1);
-	set_asterik(s, f, args, -1);
-	tmp = ft_strdup(s);
-	while (*tmp)
-	{
-		set_modifier(tmp, f);
-		tmp++;
-	}
-	ft_strdel(&tmp);
-	return (conversions(f, args));
+	determine_width(s, f, -1);
+	determine_asterik(s, f, av, -1);
+	determine_mod(s, f, -1);
+	i = dispatcher(f, av);
+	free(f);
+	return (i);
 }

@@ -1,43 +1,66 @@
-#include "../inc/ft_printf.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   dispatcher.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kromain <kromain@student.42.us.org>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/09/06 11:46:50 by kromain           #+#    #+#             */
+/*   Updated: 2017/09/07 12:32:12 by kromain          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-int		dispatch_non_numbers(va_list *args, t_flag *f)
-{
-	if (f->mod == l || f->spec == 'S')
-		return (print_wstr(args, f, 0));
-	else if (f->mod == l || f->spec == 'C')
-		return (print_wchr(args, f, 0));
-	else if (f->spec == 'p')
-		return (print_ptr(args, f, 0));
-	else if (f->spec == 's')
-		return (print_str(args, f, 0));
-	return (print_chr(args, f, 0));
-}
+#include "ft_printf.h"
 
-static int  dispatch_unsigned_numbers(va_list *args, t_flag *f)
+static int		dispatch_unsigned(t_flags *f, va_list *av)
 {
 	if (f->spec == 'o' || f->spec == 'O')
 	{
 		f->mod = (f->spec == 'O') ? l : f->mod;
 		f->spec = 'o';
-		return (print_octal(f, get_unsigned(args, f)));
+		return (print_octal(f, unsigned_type(f, av)));
 	}
 	else if (f->spec == 'u' || f->spec == 'U')
 	{
 		f->mod = (f->spec == 'U') ? l : f->mod;
 		f->spec = 'u';
-		return (print_uint(f, get_unsigned(args, f)));
+		return (print_unsigned(f, unsigned_type(f, av)));
 	}
-	return (print_hex(f, get_unsigned(args, f)));
+	return (print_hex(f, unsigned_type(f, av)));
 }
 
-int		dispatch_numbers(va_list *args, t_flag *f)
+int				dispatch_number(t_flags *f, va_list *av)
 {
 	if (f->spec == 'd' || f->spec == 'D' || f->spec == 'i')
 	{
 		if (f->spec == 'D')
 			f->mod = l;
 		f->spec = 'd';
-		return (print_int(f, get_signed(args, f)));
+		return (print_signed(f, signed_type(f, av)));
 	}
-	return (dispatch_unsigned_numbers(args, f));
+	return (dispatch_unsigned(f, av));
+}
+
+int				dispatch_non_number(t_flags *f, va_list *av)
+{
+	if (f->mod == l || f->spec == 'S')
+		return (print_ws(f, av, 0));
+	else if (f->mod == l || f->spec == 'C')
+		return (print_wc(f, av, 0));
+	else if (f->spec == 's')
+		return (print_s(f, av, 0));
+	else if (f->spec == 'c')
+		return (print_c(f, av, 0));
+	else if (f->spec == 'p')
+		return (print_pointer(f, av));
+	return (print_percent(f, av));
+}
+
+int				dispatcher(t_flags *f, va_list *av)
+{
+	if (ft_strchr("idDxXouUO)", f->spec))
+		return (dispatch_number(f, av));
+	else if (ft_strchr("SscCp%", f->spec))
+		return (dispatch_non_number(f, av));
+	return (print_invalid(f));
 }
