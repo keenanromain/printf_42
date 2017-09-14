@@ -46,13 +46,14 @@ void	s_precision(char **s, t_flags *f)
 void	ws_precision(wchar_t **ws, t_flags *f)
 {
 	size_t	len;
-	int		i;
 
 	if (!f->set_prec || ft_wstrlen(*ws) <= f->prec)
 		return ;
 	len = 0;
-	i = -1;
-	while ((*ws)[++i] && len <= f->prec)
-		len += ft_wcharlen((*ws)[i]);
-	(*ws)[i - 1] = 0;
+	while (**ws && len <= f->prec)
+	{
+		len += ft_wcharlen(**ws);
+		ws++;
+	}
+	*(*ws - 1) = 0;
 }

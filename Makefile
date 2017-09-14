@@ -61,6 +61,7 @@ $(NAME):
 	@echo "     |______|_|            \033[0m "
 	gcc $(FlAGS) $(IN) -c $(SRC)
 	ar rc $(NAME) $(OBJ)
+	@echo "                              "
 	@echo "\033[01;39mFinished making ft_printf. Available Makefile commands:\033[0m"
 	@echo "\033[01;39m - make\033[0m"
 	@echo "\033[01;39m - make clean\033[0m"
@@ -73,10 +74,12 @@ test:
 	@rm -f $(OBJ)
 
 clean:
+	@echo "                              "
 	@echo "\033[01;39mCleaning ft_printf...\033[0m"
 	/bin/rm -f $(OBJ)
 
 fclean: clean
+	@echo "                              "
 	@echo "\033[01;31mRemoved Compiled ft_printf\033[0m"
 	/bin/rm -f $(NAME) test/libft.a
 

@@ -12,39 +12,40 @@
 
 #include "ft_printf.h"
 
-static void		determine_width(char *s, t_flags *f, int i)
+static void		determine_width(char *s, t_flags *f)
 {
 	f->width = 1;
 	f->prec = 1;
-	while (s[++i])
+	while (*s)
 	{
-		if (s[i] != '.' && s[i] != '0' && ft_isdigit(s[i]))
+		if (*s != '.' && *s != '0' && ft_isdigit(*s))
 		{
 			f->set_width = true;
-			f->width = ft_atoi(s + i);
-			while (s[i] && ft_isdigit(s[i]))
-				++i;
+			f->width = ft_atoi(s);
+			while (*s && ft_isdigit(*s))
+				s++;
 		}
-		if (s[i] == '.' && s[i + 1] != '*')
+		if (*s == '.' && *(s + 1) != '*')
 		{
 			f->set_prec = true;
-			f->prec = ft_atoi(s + i + 1);
-			while (s[i] && ft_isdigit(s[i + 1]))
-				++i;
+			f->prec = ft_atoi(s + 1);
+			while (*s && ft_isdigit(*(s + 1)))
+				s++;
 		}
+		s++;
 	}
 }
 
-static void		determine_asterik(char *s, t_flags *f, va_list *av, int i)
+static void		determine_asterik(char *s, t_flags *f, va_list *av)
 {
 	int num;
 
-	while (s[++i])
+	while (*s)
 	{
-		if (s[i] == '*' && !ft_isdigit(s[i + 1]))
+		if (*s == '*' && !ft_isdigit(*(s + 1)))
 		{
 			num = va_arg(*av, int);
-			if (s[i - 1] == '.')
+			if (*(s - 1) == '.')
 			{
 				f->set_prec = (num >= 0) ? true : false;
 				f->prec = (num >= 0) ? num : 0;
@@ -56,25 +57,27 @@ static void		determine_asterik(char *s, t_flags *f, va_list *av, int i)
 				f->width = ft_abs(num);
 			}
 		}
-		else if (s[i] == '*')
+		else if (*s == '*')
 			num = va_arg(*av, int);
+		s++;
 	}
 }
 
-static void		determine_mod(char *s, t_flags *f, int i)
+static void		determine_mod(char *s, t_flags *f)
 {
-	while (s[++i])
+	while (*s)
 	{
-		if (s[i] == 'h')
-			f->mod = (s[++i] == 'h') ? hh : h;
-		else if (s[i] == 'l')
-			f->mod = (s[++i] == 'l') ? ll : l;
-		else if (s[i] == 'j')
+		if (*s == 'h')
+			f->mod = (*(s + 1) == 'h' && s++) ? hh : h;
+		else if (*s == 'l')
+			f->mod = (*(s + 1) == 'l' && s++) ? ll : l;
+		else if (*s == 'j')
 			f->mod = j;
-		else if (s[i] == 'z')
+		else if (*s == 'z')
 			f->mod = z;
-		else if (s[i] == 't')
+		else if (*s == 't')
 			f->mod = t;
+		s++;
 	}
 }
 
@@ -95,9 +98,9 @@ int				determine_flags(char *s, va_list *av)
 		f->minus = (s[i] == '-') ? true : f->minus;
 		f->space = (s[i] == ' ') ? true : f->space;
 	}
-	determine_width(s, f, -1);
-	determine_asterik(s, f, av, -1);
-	determine_mod(s, f, -1);
+	determine_width(s, f);
+	determine_asterik(s, f, av);
+	determine_mod(s, f);
 	i = dispatcher(f, av);
 	free(f);
 	return (i);
