@@ -44,7 +44,7 @@ OBJ = $(PROJECT:.c=.o) $(LIB:.c=.o)
 
 IN = -I./inc
 
-.PHONY: all clean fclean re test lib
+.PHONY: all clean fclean re lib
 
 all: $(NAME)
 
@@ -67,11 +67,6 @@ $(NAME):
 	@echo "\033[01;39m - make clean\033[0m"
 	@echo "\033[01;39m - make fclean\033[0m"
 	@echo "\033[01;39m - make re\033[0m"
-
-test:
-	gcc $(FLAGS) $(IN) $(SRC) test/main.c -L. test/libft.a -o test/a.out
-	./test/a.out
-	@rm -f $(OBJ)
 
 clean:
 	@echo "                              "
