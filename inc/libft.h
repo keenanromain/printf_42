@@ -19,15 +19,6 @@
 # include <stddef.h>
 # include <stdint.h>
 
-
-typedef struct		s_list
-{
-	void			*content;
-	size_t			content_size;
-	struct s_list	*next;
-	int				fd;
-}					t_list;
-
 int					ft_isalpha(int c);
 int					ft_isdigit(int c);
 int					ft_tolower(int c);
