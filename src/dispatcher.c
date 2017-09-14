@@ -58,7 +58,7 @@ int				dispatch_non_number(t_flags *f, va_list *av)
 
 int				dispatcher(t_flags *f, va_list *av)
 {
-	if (ft_strchr("idDxXouUO)", f->spec))
+	if (ft_strchr("idDxXouUO", f->spec))
 		return (dispatch_number(f, av));
 	else if (ft_strchr("SscCp%", f->spec))
 		return (dispatch_non_number(f, av));

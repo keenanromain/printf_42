@@ -30,9 +30,11 @@ static int		determine_fmt(char *fmt, va_list *av, int *size)
 			break ;
 		}
 	}
-	if (s)
-		*size += determine_flags(s, av);
-	return (!s ? 0 : i);
+	if (!s)
+		return (0);
+	*size += determine_flags(s, av);
+	ft_strdel(&s);
+	return (i);
 }
 
 static int		run_thru_string(char *fmt, va_list *av, int *size)

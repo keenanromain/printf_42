@@ -18,6 +18,7 @@
 # define ONE_BYTE 127
 # define TWO_BYTE 2047
 # define THREE_BYTE 65535
+# define FOUR_BYTE 1114111
 
 # include <stdarg.h>
 # include <stdio.h>
@@ -47,8 +48,8 @@ typedef struct		s_flags
 	bool			set_width;
 	bool			set_prec;
 	int				width;
-	unsigned int	prec;
-	unsigned int	len;
+	int				prec;
+	int				len;
 	t_mod			mod;
 	char			spec;
 }					t_flags;

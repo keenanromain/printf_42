@@ -41,7 +41,7 @@ void		wc_to_s(wchar_t wc, char *s)
 		s[1] = 128 | (((int)(wc) >> 6) & 63);
 		s[2] = 128 | ((int)(wc) & 63);
 	}
-	else
+	else if ((int)wc <= FOUR_BYTE)
 	{
 		s[0] = 240 | (((int)(wc) >> 18) & 63);
 		s[1] = 128 | (((int)(wc) >> 12) & 63);
@@ -72,18 +72,20 @@ int			ft_wcharlen(wchar_t c)
 		return (2);
 	else if ((int)c <= THREE_BYTE)
 		return (3);
-	return (4);
+	else if ((int)c <= FOUR_BYTE)
+		return (4);
+	return (0);
 }
 
-size_t		ft_wstrlen(wchar_t *str)
+size_t		ft_wstrlen(wchar_t *s)
 {
 	size_t	len;
 
 	len = 0;
-	while (*str)
+	while (*s)
 	{
-		len += ft_wcharlen(*str);
-		str++;
+		len += ft_wcharlen(*s);
+		s++;
 	}
 	return (len);
 }
