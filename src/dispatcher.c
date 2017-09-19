@@ -43,14 +43,12 @@ int				dispatch_number(t_flags *f, va_list *av)
 
 int				dispatch_non_number(t_flags *f, va_list *av)
 {
-	if (f->mod == l || f->spec == 'S')
-		return (print_ws(f, av, 0));
-	else if (f->mod == l || f->spec == 'C')
-		return (print_wc(f, av, 0));
-	else if (f->spec == 's')
-		return (print_s(f, av, 0));
-	else if (f->spec == 'c')
-		return (print_c(f, av, 0));
+	if (f->spec == 's' || f->spec == 'S')
+		return (f->mod == l || f->spec == 'S' ? \
+				print_ws(f, av, 0) : print_s(f, av, 0));
+	else if (f->spec == 'c' || f->spec == 'C')
+		return (f->mod == l || f->spec == 'C' ? \
+				print_wc(f, av, 0) : print_c(f, av, 0));
 	else if (f->spec == 'p')
 		return (print_pointer(f, av));
 	return (print_percent(f, av));
