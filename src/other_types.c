@@ -65,10 +65,15 @@ static int	null(t_flags *f, char **p)
 
 static int	valid(t_flags *f, char **p)
 {
+	char *tmp;
+
 	i_precision(p, f);
 	if (f->pound && f->set_prec)
 		f->zero = 0;
-	*p = ft_strjoin("0x", *p);
+	tmp = ft_strjoin("0x", *p);
+	ft_strdel(p);
+	*p = ft_strdup(tmp);
+	ft_strdel(&tmp);
 	s_width(p, f);
 	return (ft_strlen(*p));
 }

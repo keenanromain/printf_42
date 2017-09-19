@@ -31,6 +31,32 @@ intmax_t	signed_type(t_flags *f, va_list *av)
 	return (intmax_t)va_arg(*av, int);
 }
 
+static int	helper(t_flags *f, char **s, int len, intmax_t type)
+{
+	char *tmp;
+
+	tmp = NULL;
+	if (f->space && *s[0] != '-' && !f->plus)
+	{
+		tmp = ft_strjoin(" ", *s);
+		ft_strdel(s);
+		*s = ft_strdup(tmp);
+		ft_strdel(&tmp);
+	}
+	if (f->plus && type >= 0)
+	{
+		tmp = ft_strjoin("+", *s);
+		ft_strdel(s);
+		*s = ft_strdup(tmp);
+		ft_strdel(&tmp);
+	}
+	s_width(s, f);
+	ft_putstr(*s);
+	len = ft_strlen(*s);
+	ft_strdel(s);
+	return (len);
+}
+
 int			print_signed(t_flags *f, intmax_t type)
 {
 	int			len;
@@ -48,13 +74,5 @@ int			print_signed(t_flags *f, intmax_t type)
 		f->space) ? f->width - 1 : f->width;
 	}
 	i_precision(&s, f);
-	if (f->space && s[0] != '-' && !f->plus)
-		s = ft_strjoin(" ", s);
-	if (f->plus && type >= 0)
-		s = ft_strjoin("+", s);
-	s_width(&s, f);
-	ft_putstr(s);
-	len = ft_strlen(s);
-	ft_strdel(&s);
-	return (len);
+	return (helper(f, &s, len, type));
 }

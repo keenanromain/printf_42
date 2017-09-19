@@ -76,6 +76,9 @@ int					print_unsigned(t_flags *f, unsigned long long type)
 
 static int			valid(t_flags *f, int len, char *s)
 {
+	char *tmp;
+
+	tmp = NULL;
 	f->len = ft_strlen(s);
 	i_precision(&s, f);
 	if (f->zero && f->pound)
@@ -84,7 +87,12 @@ static int			valid(t_flags *f, int len, char *s)
 		s_width(&s, f);
 	}
 	if (ft_strcmp("0", s) && f->pound)
-		s = ft_strjoin("0X", s);
+	{
+		tmp = ft_strjoin("0X", s);
+		ft_strdel(&s);
+		s = ft_strdup(tmp);
+		ft_strdel(&tmp);
+	}
 	s_width(&s, f);
 	!(f->spec == 'X') ? ft_putdowncase(s) : ft_putstr(s);
 	len = ft_strlen(s);
