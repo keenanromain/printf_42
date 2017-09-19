@@ -44,7 +44,7 @@ static int		run_thru_string(char *fmt, va_list *av, int *size)
 	p = 0;
 	while (*fmt)
 	{
-		if (*fmt && *fmt != '%')
+		if (*fmt != '%')
 			*size += write(1, fmt++, 1);
 		else
 		{

@@ -42,6 +42,8 @@ int				print_ws(t_flags *f, va_list *av, int len)
 		len = ft_wstrlen(ws);
 	ft_putstr(s);
 	ft_strdel(&s);
+	free(ws);
+	ws = NULL;
 	return (len);
 }
 

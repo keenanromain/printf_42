@@ -56,12 +56,13 @@ void		s_width(char **s, t_flags *f)
 		return ;
 	tmp = ft_strnew(f->width);
 	if (!f->minus)
-	{
 		tmp = justification(s, f, tmp);
-		*s = tmp;
-		return ;
+	else
+	{
+		ft_strcpy(tmp, *s);
+		ft_memset(tmp + ft_strlen(*s), ' ', f->width - ft_strlen(*s));
 	}
-	ft_strcpy(tmp, *s);
-	ft_memset(tmp + ft_strlen(*s), ' ', f->width - ft_strlen(*s));
-	*s = tmp;
+	ft_strdel(s);
+	*s = ft_strdup(tmp);
+	ft_strdel(&tmp);
 }

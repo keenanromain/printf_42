@@ -33,6 +33,7 @@ intmax_t	signed_type(t_flags *f, va_list *av)
 
 int			print_signed(t_flags *f, intmax_t type)
 {
+	int			len;
 	char		*s;
 
 	if (!f->prec && !type)
@@ -53,5 +54,7 @@ int			print_signed(t_flags *f, intmax_t type)
 		s = ft_strjoin("+", s);
 	s_width(&s, f);
 	ft_putstr(s);
-	return (ft_strlen(s));
+	len = ft_strlen(s);
+	ft_strdel(&s);
+	return (len);
 }

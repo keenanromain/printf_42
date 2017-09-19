@@ -12,20 +12,6 @@
 
 #include "ft_printf.h"
 
-char		*ws_to_s(wchar_t *ws, size_t len, int i)
-{
-	char	*res;
-
-	res = ft_strnew(len);
-	while (*ws)
-	{
-		wc_to_s(*ws, res + i);
-		i += ft_wcharlen(*ws);
-		ws++;
-	}
-	return (res);
-}
-
 void		wc_to_s(wchar_t wc, char *s)
 {
 	if ((int)wc <= ONE_BYTE)
@@ -48,6 +34,20 @@ void		wc_to_s(wchar_t wc, char *s)
 		s[2] = 128 | (((int)(wc) >> 6) & 63);
 		s[3] = 128 | ((int)(wc) & 63);
 	}
+}
+
+char		*ws_to_s(wchar_t *ws, size_t len, int i)
+{
+	char	*res;
+
+	res = ft_strnew(len);
+	while (*ws)
+	{
+		wc_to_s(*ws, res + i);
+		i += ft_wcharlen(*ws);
+		ws++;
+	}
+	return (res);
 }
 
 wchar_t		*ft_wstrdup(wchar_t *ws)
