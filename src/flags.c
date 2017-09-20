@@ -103,5 +103,6 @@ int				determine_flags(char *s, va_list *av)
 	determine_mod(s, f);
 	i = dispatcher(f, av);
 	free(f);
+	f = NULL;
 	return (i);
 }

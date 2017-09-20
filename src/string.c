@@ -47,23 +47,39 @@ int				print_ws(t_flags *f, va_list *av, int len)
 	return (len);
 }
 
+static int		helper(char **s, t_flags *f, int len)
+{
+	f->len = ft_strlen(*s);
+	s_precision(s, f);
+	s_width(s, f);
+	len = ft_strlen(*s);
+	ft_putstr(*s);
+	ft_strdel(s);
+	return (len);
+}
+
 int				print_s(t_flags *f, va_list *av, int len)
 {
 	char	*s;
+	char	*tmp;
+	char	*arg;
 
-	if (!(s = va_arg(*av, char*)))
+	s = NULL;
+	tmp = NULL;
+	if (!(arg = va_arg(*av, char*)))
 	{
 		if (!f->set_prec || (f->set_prec && f->prec))
 			s = ft_strdup("(null)");
 		else
 			s = ft_strdup("");
 	}
-	s = ft_strdup(s);
-	f->len = ft_strlen(s);
-	s_precision(&s, f);
-	s_width(&s, f);
-	len = ft_strlen(s);
-	ft_putstr(s);
-	ft_strdel(&s);
-	return (len);
+	if (s)
+	{
+		tmp = ft_strdup(s);
+		ft_strdel(&s);
+	}
+	s = ft_strdup(tmp ? tmp : arg);
+	if (tmp)
+		ft_strdel(&tmp);
+	return (helper(&s, f, len));
 }

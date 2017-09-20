@@ -15,16 +15,14 @@
 static int		determine_fmt(char *fmt, va_list *av, int *size)
 {
 	char		*s;
-	char		*tmp;
 	int			i;
 
 	s = NULL;
-	tmp = fmt;
 	i = -1;
-	while (tmp[++i])
+	while (fmt[++i])
 	{
-		if (ft_strchr(SPEC, tmp[i]) || (ft_isalpha(tmp[i]) \
-		&& !ft_strchr(POSS, tmp[i])))
+		if (ft_strchr(SPEC, fmt[i]) || (ft_isalpha(fmt[i]) \
+		&& !ft_strchr(POSS, fmt[i])))
 		{
 			s = ft_strndup(fmt, ++i);
 			break ;
