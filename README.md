@@ -12,7 +12,7 @@ The format string runs similar to how a string in a simple <a href="https://gith
 
 <img width="521" alt="screen shot 2017-11-28 at 1 51 19 pm" src="https://user-images.githubusercontent.com/13093517/33346066-40ed8bb8-d443-11e7-8f9c-c36b3c6529e7.png">
 Note ~ This program does not manage doubles (%f, %e/%E, %g/%G), but does manage wide characters (%C and %S). 
-<br />
+<\n>
 After running some validation checks on what follows the % in *run_thru_string*, the next major function worth spending time on is the *determine_flags* function. The format specifier in printf is interesting because it can also contain sub-specifiers such as flags, width, precision, and modifiers. Please refer below to see the many sub-specifiers that this project supports:
 
 <img width="688" alt="screen shot 2017-11-28 at 2 38 03 pm" src="https://user-images.githubusercontent.com/13093517/33348087-cde68852-d449-11e7-8a8a-9c05dcf79f45.png">
