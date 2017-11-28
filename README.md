@@ -1,5 +1,5 @@
 # printf_42
-A personal printf with full-functionality. This project was a great excercise in understanding how variable arguments work in C and how versatile the printf function is through it's many flags and format identifiers. The aim for this README is to give a concise explanation of the project's most important features and touch on other points of interest.
+A personal printf. This project was a great excercise in understanding how variable arguments work in C and how versatile the printf function is through it's many flags and format identifiers. The aim for this README is to give a concise explanation of the project's most important features and touch on other points of interest.
 ## Key Details
 
  The first function to be addressed, *run_thru_string*, gives a glimpse into how this project is organized through the loop found on line 43:
