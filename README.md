@@ -1,5 +1,5 @@
 # printf_42
-A personal printf. 
+A personal printf built out of Professor Don Colton's wonderful resource <a href="http://www.cypress.com/file/54761/download">Secrets of "printf"</a>. 
 
 This project was a great excercise in understanding how variable arguments work in C and how versatile the printf function is through it's many flags and format identifiers. The aim for this README is to give a concise explanation of the project's most important features and touch on other points of interest.
 ## Key Details
