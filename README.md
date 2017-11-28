@@ -15,6 +15,7 @@ Note ~ This program does not manage doubles (%f, %e/%E, %g/%G), but does manage 
 <br /><br />
 After running some validation checks on what follows the % in the *run_thru_string* function, the next major function worth examining is the *determine_flags* function. The format specifier in printf is interesting because it can also contain sub-specifiers such as flags, width, precision, and modifiers. The *determine_flags* function is the main function responsible for checking all of the above. Please refer to the detailed explanation behind each sub-specifier in the table below before moving on to *determine_flags*:
 
+
 <img width="688" alt="screen shot 2017-11-28 at 2 38 03 pm" src="https://user-images.githubusercontent.com/13093517/33348087-cde68852-d449-11e7-8a8a-9c05dcf79f45.png">
 <img width="589" alt="screen shot 2017-11-28 at 2 28 35 pm" src="https://user-images.githubusercontent.com/13093517/33348499-79aee53e-d44b-11e7-9635-c570a7aa399c.png">
 
