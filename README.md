@@ -34,7 +34,7 @@ To determine the width (and precision for floating point value) of the given sub
 <br />
 <img width="251" alt="screen shot 2017-11-28 at 5 08 49 pm" src="https://user-images.githubusercontent.com/13093517/33352675-e342195e-d45e-11e7-8e9e-ea34ef3d7a48.png">
 
-The second if-statement checks for the appropriate signs to set precision, '.', and if true, makes note of it and stores the value in a similar fashion on lines 30 and 31. Lastly, the two nested while-loops are used to escape the numerical value used to set width and/or precision.   
+The second if-statement checks for the appropriate sign to set precision, '.', and if true, makes note of it and stores the value in a similar fashion on lines 30 and 31. Lastly, the two nested while-loops are used to escape the numerical value used to set width and/or precision.   
 
 ## Acknowledgement
 
