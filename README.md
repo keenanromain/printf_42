@@ -40,6 +40,8 @@ Next, the *dispatcher* function will be examined. This function was originally p
 
 <img width="471" alt="screen shot 2017-11-28 at 5 16 57 pm" src="https://user-images.githubusercontent.com/13093517/33352947-29b7a9d4-d460-11e7-9ea3-54e9d9e167d2.png">
 
+This function passes the different integers into their appropriate functions on line 44, strings, characters, and pointers to their respective functions on line 46, and all else into the invalid function on line 47.
+
 ## Acknowledgement
 
 printf_42 was developed at École 42 USA in Fremont, California
