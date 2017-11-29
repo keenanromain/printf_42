@@ -28,12 +28,11 @@ To determine the width (and precision for floating point value) of the given sub
 <br />
 <sub>How output looks like with width adjusted to the right</sub>
 <br />
-<img width="242" alt="screen shot 2017-11-28 at 4 47 37 pm" src="https://user-images.githubusercontent.com/13093517/33352570-5e5bbb64-d45e-11e7-94de-c762355c6520.png">
+<img width="244" alt="screen shot 2017-11-28 at 5 08 35 pm" src="https://user-images.githubusercontent.com/13093517/33352665-d965325e-d45e-11e7-9d9b-14cdd488a30a.png">
 <br />
 <sub>How output looks like with width adjusted to the left (Note the preceding minus sign)</sub>
 <br />
-<img width="248" alt="screen shot 2017-11-28 at 5 06 29 pm" src="https://user-images.githubusercontent.com/13093517/33352588-823f6120-d45e-11e7-8ee3-5a76e35913d7.png">
-
+<img width="251" alt="screen shot 2017-11-28 at 5 08 49 pm" src="https://user-images.githubusercontent.com/13093517/33352675-e342195e-d45e-11e7-8e9e-ea34ef3d7a48.png">
 
 The second if-statement checks for the appropriate signs to set precision, '.', and if true, makes note of it and stores the value in a similar fashion on lines 30 and 31. Lastly, the two nested while-loops are used to escape the numerical value used to set width and/or precision.   
 
