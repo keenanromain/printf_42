@@ -24,6 +24,15 @@ After running some validation checks on what follows the % in the *run_thru_stri
 
 <img width="483" alt="screen shot 2017-11-28 at 4 01 38 pm" src="https://user-images.githubusercontent.com/13093517/33350806-9a5210f4-d455-11e7-8b21-8e5f8bb100da.png">
 
+To determine the width (and precision for floating point value) of the given sub-string, the *determine_width* function contains two if-statements to be evaluated. The first checks for a numerical value (but not zero as zero is it's own sub-specifier - see diagram above) in the sub-string as this number is used to determine the width offset for the corresponding variable argument. If true, this case is noted and the value is stored as seen on lines 23 and 24. 
+<sub>How output looks like with width adjusted to the right</sub>
+<img width="242" alt="screen shot 2017-11-28 at 4 47 37 pm" src="https://user-images.githubusercontent.com/13093517/33352570-5e5bbb64-d45e-11e7-94de-c762355c6520.png">
+<sub>How output looks like with width adjusted to the left (Note the preceding minus sign)</sub>
+<img width="248" alt="screen shot 2017-11-28 at 5 06 29 pm" src="https://user-images.githubusercontent.com/13093517/33352588-823f6120-d45e-11e7-8ee3-5a76e35913d7.png">
+
+
+The second if-statement checks for the appropriate signs to set precision, '.', and if true, makes note of it and stores the value in a similar fashion on lines 30 and 31. Lastly, the two nested while-loops are used to escape the numerical value used to set width and/or precision.   
+
 ## Acknowledgement
 
 printf_42 was developed at École 42 USA in Fremont, California
