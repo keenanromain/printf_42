@@ -54,6 +54,11 @@ The handler for base-8 integers will be observed next.
 
 The parameter 'type' stores the variable argument as it needed a correct data type matching before being cast to this function. The variable is then converted with the appropriate base still intact as seen on line 39. If the pound flag is set, a zero-prefix is required for the octal before the rest of the code is executed. From lines 51 to 57, the logic follows from the string handler's auxillary as precision and width is taken care of before before writing to the standard output. Lastly, the number of characters written is returned just like from before.
 
+Lastly, the handler for wide character (not wide strings as that is taken care of elsewhere) will be discussed.
+
+<img width="581" alt="screen shot 2017-12-03 at 12 42 08 am" src="https://user-images.githubusercontent.com/13093517/33524172-a28d390e-d7cc-11e7-80a9-7e4868740ab9.png">
+
+
 ## Acknowledgement
 
 printf_42 was developed at École 42 USA in Fremont, California
