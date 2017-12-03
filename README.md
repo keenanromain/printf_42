@@ -48,6 +48,12 @@ As seen in the *dispatcher* function above, this recoded printf supports 15 conv
 
 The handler for string types was perhaps the most straightforward to implement. The first task was to evaluate the truthfulness of the trailing variable argument. If said argument is false, the program's output should then mimic printf's error handling as seen on lines 50 and 52. Otherwise, the variable argument is duplicated and passed to the auxillary function in charge of output. In *helper*, the auxillary, two calls to precision and width formatting functions (listed as *s_precision* and *s_width* in reference to the string type) finally perform the specifications from earlier in the program if they were given. The functions alter the duplicated string by either limiting the number of characters to be printed or justifying the result according to white space. Once these two actions have been performed, the string is ready to be printed and the resultant length is returned.
 
+The handler for base-8 integers will be observed next. 
+
+<img width="580" alt="screen shot 2017-12-03 at 12 40 59 am" src="https://user-images.githubusercontent.com/13093517/33523992-e5783290-d7c8-11e7-9ce2-0c914534a143.png">
+
+The parameter 'type' stores the variable argument which is then converted from an integer to a string with the appropriate base as seen on line 39. If the pound flag is set, a prefix is required and one is given before the rest of the code is executed. From lines 51 to 57, the logic follows the logic from the string handler as precision and width is taken care of before anything is written to the standard output. Lastly, the number of characters written is returned just like before.
+
 ## Acknowledgement
 
 printf_42 was developed at École 42 USA in Fremont, California
