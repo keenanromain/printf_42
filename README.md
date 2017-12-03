@@ -42,6 +42,12 @@ Next, the *dispatcher* function will be examined. This function was originally p
 
 This function passes the different integers into their appropriate functions on line 44, strings, characters, and pointers to their respective functions on line 46, and all else into the invalid function on line 47.
 
+As seen in the *dispatcher* function above, this recoded printf supports 15 conversion specifiers with invalid options handled in a separate function. To showcase this variety, the support for strings, octal integers, and wide characters will be discussed in full.
+
+<img width="585" alt="screen shot 2017-12-03 at 12 42 23 am" src="https://user-images.githubusercontent.com/13093517/33523777-d98ba5e8-d7c3-11e7-80e6-8607b49cf571.png">
+
+The handler for string types was perhaps the easiest to implement. The first task is to evaluate the truthfulness of the following variable argument. In the event that said argument is false, the program's output should mimic printf's error output as seen on lines 50 and 52. Otherwise, the variable argument is duplicated into the string to be passed to the auxillary function that outputs onto the screen. In *helper*, the auxillary, two calls to precision and width formatting functions (listed as *s_precision* and *s_width* in reference to the string type) finally perform the instructions given from earlier in the program. In sum, these instructions alter the resulting string by either limiting the number of characters to be printed or justify according to white space. Once these two actions have been performed, the string is finally ready to be printed and the result length of it all is returned back to *run_thru_string*
+
 ## Acknowledgement
 
 printf_42 was developed at École 42 USA in Fremont, California
