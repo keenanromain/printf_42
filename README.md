@@ -58,7 +58,7 @@ Lastly, the handler for wide character (though not wide strings as that is taken
 
 <img width="581" alt="screen shot 2017-12-03 at 12 42 08 am" src="https://user-images.githubusercontent.com/13093517/33524172-a28d390e-d7cc-11e7-80a9-7e4868740ab9.png">
 
-Making this project UTF-8 compatible was probably the hardest part of it all. There was a lot of research to be done on<a href="https://en.wikipedia.org/wiki/UTF-8">Wikipedia</a>. The jist of the function above though is relatively simple. The logic follows the main logic from *print_s* in how the length is returned and the value is outputted. After an initial check for NULL, the main difference is in *wc_to_s* which is a function that bitshifts the variable argument into the appropriate ASCII format that can be printed. It took a lot of time to create something that functioned as it was suppossed to, but the Wiki page was an excellent guide.
+Making this project UTF-8 compatible was probably the hardest part of it all. There was a lot of research to be done on <a href="https://en.wikipedia.org/wiki/UTF-8">Wikipedia</a>. The jist of the function above though is relatively simple. The logic follows the main logic from *print_s* in how the length is returned and the value is outputted. After an initial check for NULL, the main difference is in *wc_to_s* which is a function that bitshifts the variable argument into the appropriate ASCII format that can be printed. It took a lot of time to create something that functioned as it was suppossed to, but the Wiki page was an excellent guide.
  
 ## Acknowledgement
 
